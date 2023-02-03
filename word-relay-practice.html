@@ -14,35 +14,49 @@
 
     <script>
         const number = Number(prompt('몇 명이 참가합니까?'));
-        const $order = document.querySelector('#order');
-        const $word = document.querySelector('#word');
-        const $input = document.querySelector('#input');
-        const $btn = document.querySelector('#btn');
-
-        let word;
-        let newWord;
 
 
+        //입력창에서 취소를 눌렀을 때 코드가 실행되지 않게 하기 : prompt함수에서 취소를 누르면 null이 되는데, 이것을 Number 함수 안에 넣으면 NaN이 되고, NaN은 if문에 들어가면 항상 false취급이 되므로
+        //number가 null이면 if문 내부는 실행되지 않는 것이다.
+        if (number)  {
+            const $order = document.querySelector('#order');
+            const $word = document.querySelector('#word');
+            const $input = document.querySelector('#input');
+            const $btn = document.querySelector('#btn');
+
+            let word;
+            let newWord;
 
 
-        const onClickButton = () =>{
-            word = newWord;
-        }
 
-        const onInput = (event) =>{
 
-            if($input.addEventListener('input')) {
-                newWord = event.target.value;
-            }else{
-                
+            const onClickButton = () =>{
+                if(newWord.length === 3 && (!word || word[word.length - 1] === newWord[0])){
+                    word = newWord;
+                    $word.textContent = word;
+                    
+                    const order = Number($order.textContent); //현재순서
+                    if(order + 1 > number){
+                        $order.textContent = 1
+                    } else{
+                        $order.textContent = order + 1
+                    }
+                    input.value = "";
+                    input.focus();
+                }else{
+                    alert('3글자만 입력해주세요')
+                }
+            }
+
+            const onInput = (event) =>{
+                    newWord = event.target.value;
+            };
+
+            $input.addEventListener('input', onInput);
+            $btn.addEventListener('click', onClickButton);
+            
             }
             
-
-        };
-
-        $input.addEventListener('input', onInput);
-        $btn.addEventListener('click', onClickButton);
-        
     </script>
 </body>
 </html>
